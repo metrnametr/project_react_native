@@ -97,6 +97,8 @@ CashStack.path = '';
 const MainTabNavigator =  createMaterialBottomTabNavigator({
   Main: { screen: MainStack },
   Cash: { screen: CashStack }
+}, {
+
 });
 
 export default MainTabNavigator;

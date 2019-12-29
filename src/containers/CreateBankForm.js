@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import numeral from 'numeral';
 import { keys, map } from 'lodash';
 import getSymbolFromCurrency from 'currency-symbol-map';
@@ -8,6 +8,8 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 
 const { block, set, greaterThan, lessThan, Value, cond, sub } = Animated;
+
+import Api from '../api/Api';
 
 import { theme } from '../../theme';
 
@@ -23,11 +25,15 @@ const currencyType = {
   USD: 'Доллар',
   EUR: 'Евро',
   RUB: 'Российский рубль',
-  BYN: 'Белорусский рубль'
+  BYN: 'Белорусский рубль',
 };
 
-const ModalTypeCash = ({ visibleChangeType, checkedTypeCash, setCheckedTypeCash, setVisibleChangeType }) => (
-  <Portal>
+const ModalTypeCash = ({ visibleChangeType, checkedTypeCash, setCheckedTypeCash, setVisibleChangeType }) => {
+  const checkAndDismiss = (value) => {
+    setCheckedTypeCash(value);
+    setVisibleChangeType(false);
+  };
+  return(<Portal>
     <Dialog
       style={ { backgroundColor: theme.mainColorDark } }
       visible={ visibleChangeType }
@@ -40,26 +46,18 @@ const ModalTypeCash = ({ visibleChangeType, checkedTypeCash, setCheckedTypeCash,
           checked={ checkedTypeCash }
           value="money"
           text="Счет"
-          onPress={ (value) => setCheckedTypeCash(value) }
+          onPress={ (value) => checkAndDismiss(value) }
         />
         <AppRadioButton
           checked={ checkedTypeCash }
           value="credit"
           text="Накопления"
-          onPress={ (value) => setCheckedTypeCash(value) }
+          onPress={ (value) => checkAndDismiss(value) }
         />
       </Dialog.Content>
-      <Dialog.Actions>
-        <IconButton
-          icon="check"
-          size={ 30 }
-          color={ theme.primaryColorDark }
-          onPress={ () => setVisibleChangeType(false) }
-        />
-      </Dialog.Actions>
     </Dialog>
-  </Portal>
-);
+  </Portal>);
+};
 
 const ModalTypeCurrency = ({
   visibleChangeCurrency,
@@ -72,22 +70,27 @@ const ModalTypeCurrency = ({
       style={ { backgroundColor: theme.mainColorDark } }
       visible={ visibleChangeCurrency }
       onDismiss={ () => setVisibleChangeCurrency(false) }
+      style={ { flex: 1, backgroundColor: theme.mainColorDark } }
     >
-      <Dialog.Title style={ styles.dialogTitle }>Тип кошелька</Dialog.Title>
-      <Dialog.Content>
-        {map(keys(currencyType), (key) => (
-          <AppRadioButton
-            key={ key }
-            checked={ checkedTypeCurrency }
-            value={ key }
-            text={ currencyType[key] }
-            onPress={ () => setCheckedTypeCurrency(key) }
-          />
-        ))}
+      <Dialog.Title style={ styles.dialogTitle }>Валюта счета</Dialog.Title>
+      <Dialog.Content style={ { flex: 3  } }>
+        <View style={ { flex: 1 } }>
+          <ScrollView>
+            {map(keys(currencyType), (key) => (
+              <AppRadioButton
+                key={ key }
+                checked={ checkedTypeCurrency }
+                value={ key }
+                text={ currencyType[key] }
+                onPress={ () => setCheckedTypeCurrency(key) }
+              />
+            ))}
+          </ScrollView>
+        </View>
         {/* <AppRadioButton checked={ checkedTypeCurrency } value="money" text="Счет" onPress={ (value) => setCheckedTypeCurrency(value) } />
         <AppRadioButton checked={ checkedTypeCurrency } value="credit" text="Накопления" onPress={ (value) => setCheckedTypeCurrency(value) } /> */}
       </Dialog.Content>
-      <Dialog.Actions>
+      <Dialog.Actions style={ { borderTopWidth: .2, borderTopColor: '#999'} }>
         <IconButton
           icon="check"
           size={ 30 }
@@ -150,6 +153,20 @@ const CreateBankForm = () => {
   const handleChange = (text) => {
     console.log(text);
   };
+
+  // const loadData = () => useCallback(async () => await fetchData(), [fetchData]);
+
+  const fetchData = async () => {
+    const res = await Api.get('item');
+    const data = await res.json();
+    return data;  
+  };
+  useEffect(() => {
+    console.log('FETCH DATA')
+    console.log(fetchData());
+    // fetchData()
+    console.log(1);
+  }, []);
 
   const bottomRef = useRef();
   const trans = new Value(0);

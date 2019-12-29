@@ -17,7 +17,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Android" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -45,6 +45,8 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="743" y="230" key="FileChooserDialogImpl" />
+    <state x="743" y="230" key="FileChooserDialogImpl/1920.1080" />
     <state x="616" y="380" key="com.intellij.ide.util.TipDialog" />
     <state x="616" y="380" key="com.intellij.ide.util.TipDialog/1920.1080" />
   </component>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 
 import CreateBankForm from '../containers/CreateBankForm';
 
@@ -18,8 +18,6 @@ const CreateBankScreen = (props) => {
 };
 
 CreateBankScreen.navigationOptions = ({ navigation }) => {
-  console.log(navigation);
-  console.log('option')
   return {
     headerRight: (
       <HeaderButtons HeaderButtonComponent={ AppHeaderIcon }>

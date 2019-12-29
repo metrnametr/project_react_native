@@ -44,8 +44,6 @@ const CashScreen = (props) => {
 };
 
 CashScreen.navigationOptions = ({ navigation }) => {
-  console.log(navigation);
-  console.log('option')
   return {
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={ AppHeaderIcon }>

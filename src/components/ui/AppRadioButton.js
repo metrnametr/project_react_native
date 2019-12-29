@@ -15,7 +15,7 @@ const AppRadioButton = ({ value, checked, text, onPress, color = theme.primaryCo
           onPress={ onTouch }
           status={ value === checked ? 'checked' : 'unchecked' }
           style={ styles.radio }
-          uncheckedColor="white"
+          uncheckedColor="#999"
           color={ color }
           value={ value }
         />
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 
   },
   text: {
-    color: 'white'
+    color: '#fff'
   }
 });
 
